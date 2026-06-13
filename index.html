@@ -1,101 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mr Mask Men Diaries</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-<title>Mr Mask Men Diaries</title>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      overflow-x: hidden;
+    }
 
-<link rel="stylesheet" href="style.css">
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(8px);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #00ff88;
+    }
+    .logo-icon { font-size: 1.5rem; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #00ff88; }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
 
+    /* Canvas BG */
+    #bgCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* Overlay gradient to keep text readable */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center,
+        rgba(0,0,0,0.35) 0%,
+        rgba(0,0,0,0.65) 100%);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .hero-content h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+    .hero-content p {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 600;
+      color: #e0e0e0;
+      margin-bottom: 36px;
+      letter-spacing: 0.5px;
+    }
+    .btn-subscribe {
+      display: inline-block;
+      padding: 14px 36px;
+      background: #00ff88;
+      color: #0a0a0a;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 24px rgba(0,255,136,0.45);
+    }
+    .btn-subscribe:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 40px rgba(0,255,136,0.7);
+    }
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.5;
+      animation: fadeUpDown 2s ease-in-out infinite;
+    }
+    .scroll-indicator span { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
+    .scroll-indicator .arrow { font-size: 1.2rem; }
+    @keyframes fadeUpDown {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+      50% { transform: translateX(-50%) translateY(6px); opacity: 0.8; }
+    }
+  </style>
 </head>
-
 <body>
 
-<div id="loader">
-    <h1>🎭 Mr Mask Men Diaries</h1>
-</div>
-
-<header class="glass">
-
-<div class="logo">
-🎭 Mr Mask Men Diaries
-</div>
-
+<!-- NAV -->
 <nav>
-<a href="#home">Home</a>
-<a href="#about">About</a>
-<a href="#videos">Videos</a>
-<a href="#contact">Contact</a>
+  <div class="logo">
+    <span class="logo-icon">🎭</span>
+    Mr Mask Men Diaries
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Videos</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
 </nav>
 
-</header>
+<!-- HERO -->
+<section class="hero">
+  <canvas id="bgCanvas"></canvas>
 
-<section id="home" class="hero">
+  <div class="hero-content">
+    <h1>Mr Mask Men Diaries</h1>
+    <p>Explore Nature &bull; Capture Adventures &bull; Inspire Journeys</p>
+    <button class="btn-subscribe">Subscribe Now</button>
+  </div>
 
-<video autoplay muted loop playsinline>
-<source src="https://cdn.coverr.co/videos/coverr-waterfall-in-the-jungle-1560678793623?download=1080p" type="video/mp4">
-</video>
-
-<div class="overlay"></div>
-
-<div class="hero-content">
-
-<h1>Mr Mask Men Diaries</h1>
-
-<h2 id="typing"></h2>
-
-<a href="https://www.youtube.com/@Mrmaskmendiaries" target="_blank" class="btn">
-Subscribe Now
-</a>
-
-</div>
-
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <span class="arrow">↓</span>
+  </div>
 </section>
 
-<section id="about">
+<script>
+/* ── ANIMATED BACKGROUND: flowing aurora + particles ── */
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
 
-<h2>About The Channel</h2>
+let W, H, particles = [], time = 0;
 
-<p>
-Welcome to Mr Mask Men Diaries.
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', () => { resize(); initParticles(); });
 
-Explore nature, waterfalls, wildlife, oceans, travel adventures and breathtaking scenery from around the world.
-</p>
+/* Particles */
+class Particle {
+  constructor() { this.reset(true); }
+  reset(initial = false) {
+    this.x = Math.random() * W;
+    this.y = initial ? Math.random() * H : H + 10;
+    this.r = Math.random() * 2 + 0.5;
+    this.speed = Math.random() * 0.6 + 0.2;
+    this.alpha = Math.random() * 0.6 + 0.1;
+    this.hue = Math.random() < 0.6 ? 150 : (Math.random() < 0.5 ? 180 : 120);
+  }
+  update() {
+    this.y -= this.speed;
+    this.x += Math.sin(time * 0.01 + this.y * 0.02) * 0.3;
+    if (this.y < -10) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${this.hue}, 100%, 65%, ${this.alpha})`;
+    ctx.fill();
+  }
+}
 
-</section>
+function initParticles() {
+  particles = Array.from({ length: 120 }, () => new Particle());
+}
+initParticles();
 
-<section id="videos">
+/* Aurora waves */
+function drawAurora() {
+  const layers = [
+    { y: H * 0.55, amp: 90,  speed: 0.0007, hue: 150, alpha: 0.12 },
+    { y: H * 0.65, amp: 70,  speed: 0.0011, hue: 170, alpha: 0.10 },
+    { y: H * 0.45, amp: 110, speed: 0.0005, hue: 130, alpha: 0.08 },
+  ];
 
-<h2>Visit Our YouTube Channel</h2>
+  layers.forEach(l => {
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    for (let x = 0; x <= W; x += 4) {
+      const y = l.y
+        + Math.sin(x * 0.004 + time * l.speed * 1000) * l.amp
+        + Math.sin(x * 0.008 + time * l.speed * 800 + 1) * (l.amp * 0.4);
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(W, H);
+    ctx.closePath();
 
-<a href="https://www.youtube.com/@Mrmaskmendiaries" target="_blank" class="btn">
-Watch Videos
-</a>
+    const grad = ctx.createLinearGradient(0, l.y - l.amp, 0, l.y + l.amp);
+    grad.addColorStop(0, `hsla(${l.hue}, 100%, 55%, ${l.alpha * 1.5})`);
+    grad.addColorStop(1, `hsla(${l.hue}, 100%, 35%, 0)`);
+    ctx.fillStyle = grad;
+    ctx.fill();
+  });
+}
 
-</section>
+/* Subtle moving radial glow */
+function drawGlow() {
+  const cx = W * 0.5 + Math.sin(time * 0.0004) * W * 0.15;
+  const cy = H * 0.45 + Math.cos(time * 0.0003) * H * 0.1;
+  const rad = Math.min(W, H) * 0.55;
+  const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, rad);
+  grad.addColorStop(0,   'rgba(0,255,136,0.07)');
+  grad.addColorStop(0.5, 'rgba(0,200,255,0.04)');
+  grad.addColorStop(1,   'rgba(0,0,0,0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+}
 
-<section id="contact">
+/* Grid lines */
+function drawGrid() {
+  ctx.strokeStyle = 'rgba(0,255,136,0.04)';
+  ctx.lineWidth = 1;
+  const spacing = 60;
+  for (let x = 0; x < W; x += spacing) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, H);
+    ctx.stroke();
+  }
+  for (let y = 0; y < H; y += spacing) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+  }
+}
 
-<h2>Contact</h2>
+function animate(ts) {
+  time = ts;
+  ctx.clearRect(0, 0, W, H);
 
-<p>
-For collaborations and promotions contact us through YouTube.
-</p>
+  // Deep dark base
+  ctx.fillStyle = '#080b10';
+  ctx.fillRect(0, 0, W, H);
 
-</section>
+  drawGrid();
+  drawGlow();
+  drawAurora();
 
-<footer>
+  // Particles
+  particles.forEach(p => { p.update(); p.draw(); });
 
-<p>
-© 2026 Mr Mask Men Diaries | All Rights Reserved
-</p>
+  requestAnimationFrame(animate);
+}
 
-</footer>
-
-<script src="script.js"></script>
-
+requestAnimationFrame(animate);
+</script>
 </body>
 </html>
