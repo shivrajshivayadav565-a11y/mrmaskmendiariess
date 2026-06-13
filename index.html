@@ -1,349 +1,942 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Mr Mask Men Diaries</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --green:#00ff88;--dark:#050e08;--nav-h:72px;
+  --jungle1:#0a1a0d;--jungle2:#071208;--accent:#39ff14;
+  --gold:#ffd700;--red:#ff3333;--bark:#3d2b1f;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Exo 2',sans-serif;background:var(--dark);color:#fff;overflow-x:hidden;}
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(5,14,8,0.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(57,255,20,0.15);}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:1px;}
+.logo-icon{font-size:1.6rem;}
+.nav-links{display:flex;gap:28px;list-style:none;align-items:center;}
+.nav-links a{color:#9dbf9e;text-decoration:none;font-size:0.88rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-cta{padding:8px 22px;background:linear-gradient(135deg,#1a5c1a,#0d3d0d);border:1px solid var(--accent);border-radius:50px;color:var(--accent)!important;font-size:0.82rem!important;}
+.nav-cta:hover{background:var(--accent)!important;color:#050e08!important;}
 
-<title>Mr Mask Men Diaries | Nature & Adventure</title>
+/* ── HERO ── */
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;}
+#jungleCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+.hero-fog{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at center,transparent 30%,rgba(5,14,8,0.7)100%);}
+.hero-content{position:relative;z-index:2;padding:20px;}
+.hero-eyebrow{font-size:0.8rem;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;opacity:0.8;}
+.hero-content h1{font-family:'Cinzel',serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:900;letter-spacing:2px;margin-bottom:16px;line-height:1.1;text-shadow:0 0 40px rgba(57,255,20,0.3),0 4px 30px rgba(0,0,0,0.9);}
+.hero-content h1 span{color:var(--accent);}
+.hero-tagline{font-size:clamp(0.9rem,2vw,1.15rem);font-weight:400;color:#9dbf9e;margin-bottom:36px;letter-spacing:2px;}
+.hero-tagline b{color:#c8e6c8;}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{padding:14px 36px;background:var(--accent);color:#050e08;font-weight:700;font-size:0.95rem;border-radius:50px;border:none;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;text-decoration:none;letter-spacing:1px;font-family:'Exo 2',sans-serif;}
+.btn-primary:hover{transform:scale(1.06);box-shadow:0 0 30px rgba(57,255,20,0.6);}
+.btn-secondary{padding:14px 36px;background:transparent;color:var(--accent);font-weight:700;font-size:0.95rem;border-radius:50px;border:2px solid rgba(57,255,20,0.5);cursor:pointer;transition:all 0.2s;text-decoration:none;letter-spacing:1px;font-family:'Exo 2',sans-serif;}
+.btn-secondary:hover{background:rgba(57,255,20,0.1);border-color:var(--accent);}
+.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;animation:bob 2.5s ease-in-out infinite;}
+.hero-scroll span{font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);}
+.hero-scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--accent),transparent);}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
 
-<meta name="description"
-content="Explore Nature, Travel Adventures and Amazing Journeys with Mr Mask Men Diaries.">
+/* ── SECTION BASE ── */
+.section-wrap{padding:100px 48px;max-width:1200px;margin:0 auto;}
+.section-label{font-size:0.72rem;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;opacity:0.7;}
+.section-title{font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:12px;line-height:1.2;}
+.section-sub{color:#7a9e7a;font-size:0.95rem;margin-bottom:56px;letter-spacing:0.5px;}
+.section-divider{width:50px;height:3px;background:linear-gradient(90deg,var(--accent),transparent);border-radius:2px;margin-bottom:18px;}
 
-<meta name="keywords"
-content="Nature, Travel, Adventure, Vlog, Mr Mask Men Diaries">
+/* ── FREE GAMES NAV SECTION ── */
+.games-nav-bar{background:linear-gradient(135deg,#0a1a0a,#061006);border-bottom:1px solid rgba(57,255,20,0.2);border-top:1px solid rgba(57,255,20,0.1);}
+.games-nav-inner{max-width:1200px;margin:0 auto;padding:18px 48px;display:flex;align-items:center;gap:20px;overflow-x:auto;}
+.games-nav-label{font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);white-space:nowrap;margin-right:8px;}
+.game-pill{padding:8px 20px;background:rgba(57,255,20,0.06);border:1px solid rgba(57,255,20,0.2);border-radius:50px;color:#9dbf9e;font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;}
+.game-pill:hover,.game-pill.active{background:rgba(57,255,20,0.15);border-color:var(--accent);color:var(--accent);}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+/* ── ABOUT ── */
+.about-bg{background:linear-gradient(180deg,#060e07,#0a1a0d);}
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center;}
+.about-text p{color:#8fb88f;line-height:1.9;margin-bottom:18px;font-size:0.97rem;}
+.about-text p b{color:#c8e6c8;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.stat-card{background:rgba(57,255,20,0.04);border:1px solid rgba(57,255,20,0.15);border-radius:16px;padding:24px 20px;text-align:center;position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+.stat-num{font-family:'Cinzel',serif;font-size:2rem;font-weight:900;color:var(--accent);}
+.stat-lbl{font-size:0.75rem;color:#6a8e6a;margin-top:4px;letter-spacing:1px;text-transform:uppercase;}
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+/* ── VIDEOS ── */
+.videos-bg{background:#060e07;}
+.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.video-card{background:#0a1a0d;border-radius:16px;overflow:hidden;border:1px solid rgba(57,255,20,0.08);transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s;cursor:pointer;text-decoration:none;color:inherit;display:block;}
+.video-card:hover{transform:translateY(-8px);border-color:rgba(57,255,20,0.35);box-shadow:0 20px 40px rgba(0,0,0,0.5),0 0 20px rgba(57,255,20,0.08);}
+.video-thumb{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:3.5rem;position:relative;overflow:hidden;}
+.thumb-t1{background:linear-gradient(135deg,#0d2b10,#1a4a1a);}
+.thumb-t2{background:linear-gradient(135deg,#0a1a2b,#1a2a4a);}
+.thumb-t3{background:linear-gradient(135deg,#1a2b0a,#2a4a0d);}
+.thumb-t4{background:linear-gradient(135deg,#2b1a0a,#4a2a0d);}
+.thumb-t5{background:linear-gradient(135deg,#0d0a2b,#1a0d4a);}
+.thumb-t6{background:linear-gradient(135deg,#2b0a0a,#4a0d0d);}
+.video-play{position:absolute;bottom:10px;right:10px;width:32px;height:32px;background:rgba(57,255,20,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;}
+.video-info{padding:16px;}
+.video-info h3{font-size:0.95rem;font-weight:700;margin-bottom:6px;color:#d4e8d4;}
+.video-info p{font-size:0.78rem;color:#5a7a5a;}
+.video-tag{display:inline-block;padding:2px 10px;background:rgba(57,255,20,0.1);border-radius:20px;font-size:0.7rem;color:var(--accent);margin-bottom:8px;}
 
-<link rel="stylesheet" href="style.css">
+/* ── GAMES SECTION ── */
+.games-bg{background:linear-gradient(180deg,#060e07,#040c06);}
+.games-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px;}
+.game-select-card{background:#0a1a0d;border:1px solid rgba(57,255,20,0.12);border-radius:20px;padding:24px;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:20px;}
+.game-select-card:hover,.game-select-card.selected{border-color:var(--accent);background:rgba(57,255,20,0.07);box-shadow:0 0 20px rgba(57,255,20,0.1);}
+.game-icon-big{font-size:2.8rem;flex-shrink:0;}
+.game-card-info h3{font-size:1rem;font-weight:700;color:#d4e8d4;margin-bottom:4px;}
+.game-card-info p{font-size:0.8rem;color:#5a7a5a;}
+.game-badge{display:inline-block;padding:2px 10px;background:rgba(57,255,20,0.1);border-radius:20px;font-size:0.68rem;color:var(--accent);margin-top:6px;}
 
+/* DUNGEON GAME AREA */
+.dungeon-area{background:#040c06;border:1px solid rgba(57,255,20,0.2);border-radius:20px;overflow:hidden;}
+.dungeon-hud{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:#030a04;border-bottom:1px solid rgba(57,255,20,0.15);}
+.hud-group{display:flex;align-items:center;gap:20px;}
+.hud-item{text-align:center;}
+.hud-val{font-family:'Cinzel',serif;font-size:1.3rem;font-weight:900;color:var(--accent);}
+.hud-lbl{font-size:0.65rem;color:#4a6a4a;text-transform:uppercase;letter-spacing:1px;}
+.health-bar-wrap{display:flex;align-items:center;gap:8px;}
+.health-bar{width:120px;height:12px;background:#1a0a0a;border-radius:6px;border:1px solid rgba(255,51,51,0.3);overflow:hidden;}
+.health-fill{height:100%;background:linear-gradient(90deg,#ff3333,#ff6666);border-radius:6px;transition:width 0.3s;}
+.health-lbl{font-size:0.7rem;color:#ff6666;}
+#dungeonCanvas{display:block;margin:0 auto;background:#040c06;}
+.dungeon-controls{padding:16px 24px;background:#030a04;border-top:1px solid rgba(57,255,20,0.15);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.ctrl-hint{font-size:0.78rem;color:#4a6a4a;letter-spacing:0.5px;}
+.ctrl-hint b{color:#7aaa7a;}
+.dungeon-btns{display:flex;gap:10px;}
+.d-btn-ctrl{padding:9px 22px;border-radius:50px;border:1px solid rgba(57,255,20,0.3);background:rgba(57,255,20,0.05);color:var(--accent);font-weight:700;font-size:0.82rem;cursor:pointer;transition:all 0.2s;font-family:'Exo 2',sans-serif;}
+.d-btn-ctrl:hover{background:rgba(57,255,20,0.15);border-color:var(--accent);}
+#dungeonMsg{display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(4,12,6,0.97);border:1px solid var(--accent);border-radius:20px;padding:36px 52px;text-align:center;z-index:10;min-width:280px;}
+#dungeonMsg h2{font-family:'Cinzel',serif;font-size:1.8rem;color:var(--accent);margin-bottom:8px;}
+#dungeonMsg p{color:#7aaa7a;margin-bottom:20px;font-size:0.9rem;}
+.dungeon-wrap{position:relative;}
+
+/* SNAKE GAME */
+.snake-area{background:#040c06;border:1px solid rgba(57,255,20,0.2);border-radius:20px;overflow:hidden;}
+#snakeCanvas{display:block;margin:0 auto;background:#040c06;}
+.snake-hud{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:#030a04;border-bottom:1px solid rgba(57,255,20,0.15);}
+
+/* ── CONTACT ── */
+.contact-bg{background:#060e07;}
+.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:60px;}
+.contact-info p{color:#7a9e7a;line-height:1.9;margin-bottom:28px;font-size:0.95rem;}
+.contact-links{display:flex;flex-direction:column;gap:14px;}
+.contact-link{display:flex;align-items:center;gap:14px;color:#9dbf9e;text-decoration:none;font-size:0.92rem;transition:color 0.2s;padding:12px 16px;background:rgba(57,255,20,0.04);border:1px solid rgba(57,255,20,0.1);border-radius:12px;}
+.contact-link:hover{color:var(--accent);border-color:rgba(57,255,20,0.3);background:rgba(57,255,20,0.08);}
+.contact-link .c-icon{width:40px;height:40px;border-radius:10px;background:rgba(57,255,20,0.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.cf{display:flex;flex-direction:column;gap:14px;}
+.cf input,.cf textarea{background:#0a1a0d;border:1px solid rgba(57,255,20,0.15);border-radius:12px;padding:14px 18px;color:#d4e8d4;font-size:0.93rem;outline:none;transition:border-color 0.2s;font-family:'Exo 2',sans-serif;}
+.cf input:focus,.cf textarea:focus{border-color:rgba(57,255,20,0.5);}
+.cf textarea{min-height:130px;resize:vertical;}
+.cf button{padding:15px;background:var(--accent);color:#040c06;font-weight:700;border:none;border-radius:50px;cursor:pointer;font-size:1rem;transition:transform 0.2s,box-shadow 0.2s;font-family:'Exo 2',sans-serif;letter-spacing:1px;}
+.cf button:hover{transform:scale(1.03);box-shadow:0 0 25px rgba(57,255,20,0.4);}
+
+/* FOOTER */
+footer{text-align:center;padding:40px;border-top:1px solid rgba(57,255,20,0.08);color:#3a5a3a;font-size:0.82rem;}
+footer span{color:var(--accent);}
+
+/* MOBILE D-PAD */
+.mobile-dpad{display:none;grid-template-columns:repeat(3,48px);grid-template-rows:48px 48px;gap:6px;margin:14px auto 0;width:fit-content;}
+.dp{width:48px;height:48px;border-radius:12px;border:1px solid rgba(57,255,20,0.25);background:rgba(57,255,20,0.05);color:var(--accent);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;-webkit-tap-highlight-color:transparent;}
+.dp:active{background:rgba(57,255,20,0.2);}
+
+@media(max-width:900px){
+  .about-grid,.contact-grid{grid-template-columns:1fr;}
+  .video-grid{grid-template-columns:1fr 1fr;}
+  .games-grid{grid-template-columns:1fr;}
+  nav{padding:0 20px;}.nav-links{gap:14px;}
+  .section-wrap{padding:70px 20px;}
+  .games-nav-inner{padding:14px 20px;}
+  .mobile-dpad{display:grid;}
+}
+@media(max-width:540px){.video-grid{grid-template-columns:1fr;}}
+</style>
 </head>
-
 <body>
 
-<!-- LOADER -->
-
-<div id="loader">
-
-    <h1>Mr Mask Men Diaries</h1>
-
-</div>
-
-<!-- NAVBAR -->
-
+<!-- NAV -->
 <nav>
-
-    <div class="logo">
-
-        🎭 Mr Mask Men Diaries
-
-    </div>
-
-    <ul>
-
-        <li><a href="#home">Home</a></li>
-
-        <li><a href="#about">About</a></li>
-
-        <li><a href="#gallery">Gallery</a></li>
-
-        <li><a href="#videos">Videos</a></li>
-
-        <li><a href="#contact">Contact</a></li>
-
-    </ul>
-
+  <a href="#home" class="logo"><span class="logo-icon">🎭</span>Mr Mask Men Diaries</a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#games-section">🎮 Free Games</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://www.youtube.com/@MrMaskMenDiaries?sub_confirmation=1" target="_blank" class="nav-cta">Subscribe</a></li>
+  </ul>
 </nav>
 
+<!-- FREE GAMES QUICK-NAV BAR (just below nav) -->
+<div class="games-nav-bar" style="margin-top:var(--nav-h);">
+  <div class="games-nav-inner">
+    <span class="games-nav-label">🎮 Free Games</span>
+    <a href="#dungeon-game" class="game-pill active">⚔️ Dungeon Fighter</a>
+    <a href="#snake-game" class="game-pill">🐍 Snake Adventure</a>
+    <span class="game-pill" style="opacity:0.4;cursor:default;">🏹 Archery (Coming Soon)</span>
+    <span class="game-pill" style="opacity:0.4;cursor:default;">🧗 Cliff Climber (Coming Soon)</span>
+  </div>
+</div>
+
 <!-- HERO -->
-
-<section id="home" class="hero">
-
-<video autoplay muted loop playsinline class="bg-video">
-
-<source src="assets/hero-video.mp4" type="video/mp4">
-
-</video>
-
-<div class="overlay"></div>
-
-<div id="particles-js"></div>
-
-<div class="hero-content">
-
-<span class="tag">
-
-🌿 Nature • Travel • Adventure
-
-</span>
-
-<h1>
-
-MR MASK MEN<br>
-
-<span>DIARIES</span>
-
-</h1>
-
-<p>
-
-Explore Nature, Capture Adventures,
-and Inspire New Journeys.
-
-</p>
-
-<div class="hero-buttons">
-
-<a href="https://www.youtube.com/@MrMaskMenDiaries"
-target="_blank"
-class="btn">
-
-Subscribe Now
-
-</a>
-
-<a href="#gallery"
-class="btn btn-outline">
-
-Explore More
-
-</a>
-
-</div>
-
-<div class="counter-box">
-
-<h3>Growing Community</h3>
-
-<span id="counter">0</span>
-
-</div>
-
-</div>
-
+<section class="hero" id="home">
+  <canvas id="jungleCanvas"></canvas>
+  <div class="hero-fog"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">🌿 Adventure Awaits</div>
+    <h1>Mr Mask Men<br><span>Diaries</span></h1>
+    <p class="hero-tagline"><b>Explore Nature</b> &bull; <b>Capture Adventures</b> &bull; <b>Inspire Journeys</b></p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="https://www.youtube.com/@MrMaskMenDiaries?sub_confirmation=1" target="_blank">🔔 Subscribe Now</a>
+      <a class="btn-secondary" href="#games-section">🎮 Play Free Games</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><span>Explore</span><div class="hero-scroll-line"></div></div>
 </section>
 
 <!-- ABOUT -->
-
-<section id="about" class="about">
-
-<div class="container">
-
-<div class="section-title">
-
-<h2>About The Channel</h2>
-
-<p>
-Adventure, Exploration and Real Nature Stories
-</p>
-
+<div class="about-bg" id="about">
+  <div class="section-wrap">
+    <div class="section-divider"></div>
+    <div class="section-label">Our Story</div>
+    <h2 class="section-title">Who We Are</h2>
+    <p class="section-sub">The masked adventurers documenting nature's wildest chapters</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Mr Mask Men Diaries is a <b>travel & nature adventure channel</b> exploring the world's unseen corners — dense jungles, misty peaks, hidden coastlines.</p>
+        <p>We wear masks not to hide, but to remind you that <b>adventure belongs to everyone</b>. With raw footage and honest storytelling, every video is a new diary entry.</p>
+        <p>Join thousands of fellow explorers. <b>New adventures every week</b> — from forest trails to urban jungles.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num">50+</div><div class="stat-lbl">Videos</div></div>
+        <div class="stat-card"><div class="stat-num">10K+</div><div class="stat-lbl">Subscribers</div></div>
+        <div class="stat-card"><div class="stat-num">25+</div><div class="stat-lbl">Locations</div></div>
+        <div class="stat-card"><div class="stat-num">100K+</div><div class="stat-lbl">Total Views</div></div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="about-grid">
-
-<div class="about-text">
-
-<p>
-
-Mr Mask Men Diaries is a channel dedicated
-to exploring hidden places, natural beauty,
-travel experiences and unforgettable journeys.
-
-</p>
-
-<p>
-
-Every video captures real adventures,
-beautiful landscapes and inspiring stories.
-
-</p>
-
+<!-- VIDEOS -->
+<div class="videos-bg" id="videos">
+  <div class="section-wrap">
+    <div class="section-divider"></div>
+    <div class="section-label">Latest Content</div>
+    <h2 class="section-title">Recent Adventures</h2>
+    <p class="section-sub">Click any video to watch on YouTube</p>
+    <div class="video-grid">
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank">
+        <div class="video-thumb thumb-t1"><span>🏔️</span><div class="video-play">▶</div></div>
+        <div class="video-info"><div class="video-tag">Nature</div><h3>Mountain Trail Diaries</h3><p>Epic trek through misty peaks</p></div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank">
+        <div class="video-thumb thumb-t2"><span>🌊</span><div class="video-play">▶</div></div>
+        <div class="video-info"><div class="video-tag">Coastal</div><h3>Coastal Adventures</h3><p>Sunrise at hidden beaches</p></div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank">
+        <div class="video-thumb thumb-t3"><span>🌿</span><div class="video-play">▶</div></div>
+        <div class="video-info"><div class="video-tag">Jungle</div><h3>Into the Forest</h3><p>Deep jungle exploration</p></div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank">
+        <div class="video-thumb thumb-t4"><span>🌅</span><div class="video-play">▶</div></div>
+        <div class="video-info"><div class="video-tag">Desert</div><h3>Desert Sunsets</h3><p>Golden hour in the dunes</p></div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank">
+        <div class="video-thumb thumb-t5"><span>🏕️</span><div class="video-play">▶</div></div>
+        <div class="video-info"><div class="video-tag">Camp</div><h3>Camp Under Stars</h3><p>Overnight wilderness camp</p></div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank">
+        <div class="video-thumb thumb-t6"><span>🦋</span><div class="video-play">▶</div></div>
+        <div class="video-info"><div class="video-tag">Wildlife</div><h3>Wildlife Moments</h3><p>Nature's rarest encounters</p></div>
+      </a>
+    </div>
+  </div>
 </div>
 
-<div class="stats">
+<!-- GAMES SECTION -->
+<div class="games-bg" id="games-section">
+  <div class="section-wrap">
+    <div class="section-divider"></div>
+    <div class="section-label">Adventure Games</div>
+    <h2 class="section-title">Play Free Games</h2>
+    <p class="section-sub">Explore our adventure game zone — more games coming soon!</p>
 
-<div class="stat">
+    <!-- DUNGEON FIGHTER -->
+    <div id="dungeon-game" style="margin-bottom:60px;">
+      <h3 style="font-family:'Cinzel',serif;color:var(--accent);margin-bottom:6px;font-size:1.3rem;">⚔️ Dungeon Fighter</h3>
+      <p style="color:#5a7a5a;font-size:0.85rem;margin-bottom:20px;">Infinite levels • Fight waves of enemies • Collect gold • Level up forever!</p>
+      <div class="dungeon-area">
+        <div class="dungeon-hud">
+          <div class="hud-group">
+            <div class="hud-item"><div class="hud-val" id="d-level">1</div><div class="hud-lbl">Level</div></div>
+            <div class="hud-item"><div class="hud-val" id="d-wave">1</div><div class="hud-lbl">Wave</div></div>
+            <div class="hud-item"><div class="hud-val" id="d-score">0</div><div class="hud-lbl">Score</div></div>
+            <div class="hud-item"><div class="hud-val" id="d-gold">0</div><div class="hud-lbl">🪙 Gold</div></div>
+          </div>
+          <div class="health-bar-wrap">
+            <span class="health-lbl">❤️</span>
+            <div class="health-bar"><div class="health-fill" id="health-fill" style="width:100%"></div></div>
+            <span class="health-lbl" id="health-text">100/100</span>
+          </div>
+        </div>
+        <div class="dungeon-wrap">
+          <canvas id="dungeonCanvas" width="760" height="380"></canvas>
+          <div id="dungeonMsg">
+            <h2 id="dmsg-title">⚔️ Dungeon Fighter</h2>
+            <p id="dmsg-sub">Fight endless waves of enemies!<br>Use Arrow Keys / WASD + Space to attack</p>
+            <button class="d-btn-ctrl" onclick="startDungeon()">▶ Start Adventure</button>
+          </div>
+        </div>
+        <div class="dungeon-controls">
+          <span class="ctrl-hint"><b>Move:</b> ← → ↑ ↓ or WASD &nbsp;|&nbsp; <b>Attack:</b> Space or Z &nbsp;|&nbsp; <b>Special:</b> X</span>
+          <div class="dungeon-btns">
+            <button class="d-btn-ctrl" onclick="startDungeon()">▶ Start</button>
+            <button class="d-btn-ctrl" onclick="pauseDungeon()">⏸ Pause</button>
+            <button class="d-btn-ctrl" onclick="resetDungeon()">↺ Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<h3>100+</h3>
-
-<p>Videos</p>
-
+    <!-- SNAKE GAME -->
+    <div id="snake-game">
+      <h3 style="font-family:'Cinzel',serif;color:var(--accent);margin-bottom:6px;font-size:1.3rem;">🐍 Snake Adventure</h3>
+      <p style="color:#5a7a5a;font-size:0.85rem;margin-bottom:20px;">Classic snake with jungle theme • Speed increases every level!</p>
+      <div class="snake-area">
+        <div class="snake-hud">
+          <div class="hud-group">
+            <div class="hud-item"><div class="hud-val" id="s-score">0</div><div class="hud-lbl">Score</div></div>
+            <div class="hud-item"><div class="hud-val" id="s-best">0</div><div class="hud-lbl">Best</div></div>
+            <div class="hud-item"><div class="hud-val" id="s-level">1</div><div class="hud-lbl">Level</div></div>
+          </div>
+          <div class="dungeon-btns">
+            <button class="d-btn-ctrl" onclick="startSnake()">▶ Start</button>
+            <button class="d-btn-ctrl" onclick="pauseSnake()">⏸ Pause</button>
+          </div>
+        </div>
+        <canvas id="snakeCanvas" width="760" height="340"></canvas>
+        <div class="dungeon-controls">
+          <span class="ctrl-hint"><b>Move:</b> Arrow Keys &nbsp;|&nbsp; <b>Pause:</b> Space</span>
+        </div>
+        <div class="mobile-dpad" id="sdpad">
+          <div></div><button class="dp" onclick="sd(0,-1)">▲</button><div></div>
+          <button class="dp" onclick="sd(-1,0)">◀</button>
+          <button class="dp" onclick="sd(0,1)">▼</button>
+          <button class="dp" onclick="sd(1,0)">▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<div class="stat">
-
-<h3>50K+</h3>
-
-<p>Views</p>
-
-</div>
-
-<div class="stat">
-
-<h3>10K+</h3>
-
-<p>Subscribers</p>
-
-</div>
-
-<div class="stat">
-
-<h3>25+</h3>
-
-<p>Locations</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- GALLERY -->
-
-<section id="gallery" class="gallery-section">
-
-<div class="container">
-
-<div class="section-title">
-
-<h2>Adventure Gallery</h2>
-
-<p>Beautiful Moments From Our Journey</p>
-
-</div>
-
-<div class="gallery">
-
-<img src="assets/img1.jpg" alt="">
-<img src="assets/img2.jpg" alt="">
-<img src="assets/img3.jpg" alt="">
-<img src="assets/img1.jpg" alt="">
-<img src="assets/img2.jpg" alt="">
-<img src="assets/img3.jpg" alt="">
-
-</div>
-
-</div>
-
-</section>
-
-<!-- FEATURED VIDEO -->
-
-<section id="videos" class="featured-video">
-
-<div class="container">
-
-<div class="section-title">
-
-<h2>Featured Adventure</h2>
-
-<p>Watch Our Latest Journey</p>
-
-</div>
-
-<iframe
-src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
-allowfullscreen>
-</iframe>
-
-</div>
-
-</section>
 
 <!-- CONTACT -->
-
-<section id="contact" class="contact">
-
-<div class="container">
-
-<div class="section-title">
-
-<h2>Contact Us</h2>
-
-<p>Let's Connect</p>
-
+<div class="contact-bg" id="contact">
+  <div class="section-wrap">
+    <div class="section-divider"></div>
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Contact Us</h2>
+    <p class="section-sub">Collaborations, suggestions, or just say hello!</p>
+    <div class="contact-grid">
+      <div>
+        <p>Have a travel suggestion, collaboration idea, or just want to share your adventure story? We'd love to hear from you.</p>
+        <div class="contact-links">
+          <a class="contact-link" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank"><div class="c-icon">▶</div>YouTube Channel</a>
+          <a class="contact-link" href="mailto:mrmaskmend@gmail.com"><div class="c-icon">✉</div>mrmaskmend@gmail.com</a>
+          <a class="contact-link" href="https://www.instagram.com/mrmaskmend" target="_blank"><div class="c-icon">📸</div>@mrmaskmend</a>
+        </div>
+      </div>
+      <div class="cf">
+        <input type="text" placeholder="Your Name"/>
+        <input type="email" placeholder="Your Email"/>
+        <textarea placeholder="Your message..."></textarea>
+        <button>🌿 Send Message</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<form>
+<footer><p>Made with 🌿 by <span>Mr Mask Men Diaries</span> &copy; 2024 — All Rights Reserved</p></footer>
 
-<input type="text"
-placeholder="Your Name">
+<script>
+/* ══════════════════════════════════════
+   JUNGLE HERO CANVAS ANIMATION
+══════════════════════════════════════ */
+(function(){
+  const cv=document.getElementById('jungleCanvas');
+  const cx=cv.getContext('2d');
+  let W,H,t=0;
+  const fireflies=[];
+  const leaves=[];
 
-<input type="email"
-placeholder="Your Email">
+  function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
+  resize();window.addEventListener('resize',()=>{resize();init();});
 
-<textarea
-placeholder="Your Message">
-</textarea>
+  class Firefly{
+    constructor(){this.reset(true);}
+    reset(init){
+      this.x=Math.random()*W;
+      this.y=init?Math.random()*H:H+10;
+      this.r=Math.random()*2.5+0.8;
+      this.spd=Math.random()*0.4+0.15;
+      this.a=0;this.maxA=Math.random()*0.8+0.2;
+      this.blinkRate=Math.random()*0.02+0.01;
+      this.hue=Math.random()<0.7?100+Math.random()*40:55+Math.random()*20;
+    }
+    update(){
+      this.y-=this.spd;
+      this.x+=Math.sin(t*0.008+this.y*0.015)*0.6;
+      this.a=this.maxA*Math.abs(Math.sin(t*this.blinkRate+this.x));
+      if(this.y<-10)this.reset(false);
+    }
+    draw(){
+      cx.beginPath();cx.arc(this.x,this.y,this.r,0,Math.PI*2);
+      cx.fillStyle=`hsla(${this.hue},100%,70%,${this.a})`;cx.fill();
+      cx.beginPath();cx.arc(this.x,this.y,this.r*3,0,Math.PI*2);
+      cx.fillStyle=`hsla(${this.hue},100%,70%,${this.a*0.15})`;cx.fill();
+    }
+  }
 
-<button type="submit">
+  class Leaf{
+    constructor(){this.reset(true);}
+    reset(init){
+      this.x=Math.random()*W;
+      this.y=init?Math.random()*H:-20;
+      this.size=Math.random()*12+6;
+      this.spd=Math.random()*0.8+0.3;
+      this.drift=Math.random()*2-1;
+      this.rot=Math.random()*Math.PI*2;
+      this.rotSpd=(Math.random()-0.5)*0.04;
+      this.a=Math.random()*0.4+0.1;
+      this.hue=100+Math.random()*60;
+    }
+    update(){
+      this.y+=this.spd;this.x+=this.drift*0.3;this.rot+=this.rotSpd;
+      if(this.y>H+20)this.reset(false);
+    }
+    draw(){
+      cx.save();cx.translate(this.x,this.y);cx.rotate(this.rot);
+      cx.beginPath();cx.ellipse(0,0,this.size,this.size*0.4,0,0,Math.PI*2);
+      cx.fillStyle=`hsla(${this.hue},60%,30%,${this.a})`;cx.fill();
+      cx.restore();
+    }
+  }
 
-Send Message
+  function init(){
+    fireflies.length=0;leaves.length=0;
+    for(let i=0;i<120;i++)fireflies.push(new Firefly());
+    for(let i=0;i<40;i++)leaves.push(new Leaf());
+  }
+  init();
 
-</button>
+  function drawJungleBG(){
+    // Deep dark sky-to-jungle gradient
+    const bg=cx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'#010804');
+    bg.addColorStop(0.4,'#030e05');
+    bg.addColorStop(0.7,'#041208');
+    bg.addColorStop(1,'#061a0a');
+    cx.fillStyle=bg;cx.fillRect(0,0,W,H);
 
-</form>
+    // Moon glow
+    const mx=W*0.75,my=H*0.2;
+    const mg=cx.createRadialGradient(mx,my,0,mx,my,H*0.35);
+    mg.addColorStop(0,'rgba(180,255,180,0.06)');
+    mg.addColorStop(0.4,'rgba(57,255,20,0.03)');
+    mg.addColorStop(1,'rgba(0,0,0,0)');
+    cx.fillStyle=mg;cx.fillRect(0,0,W,H);
 
-</div>
+    // Moon
+    cx.beginPath();cx.arc(mx,my,30,0,Math.PI*2);
+    cx.fillStyle='rgba(200,255,200,0.12)';cx.fill();
+    cx.beginPath();cx.arc(mx,my,22,0,Math.PI*2);
+    cx.fillStyle='rgba(220,255,220,0.18)';cx.fill();
 
-</section>
+    // Ground fog
+    const fg=cx.createLinearGradient(0,H*0.75,0,H);
+    fg.addColorStop(0,'rgba(0,0,0,0)');
+    fg.addColorStop(0.5,'rgba(10,30,12,0.35)');
+    fg.addColorStop(1,'rgba(5,20,8,0.7)');
+    cx.fillStyle=fg;cx.fillRect(0,H*0.75,W,H);
 
-<!-- FOOTER -->
+    // Moving mist layers
+    for(let i=0;i<3;i++){
+      const mw=W*1.5,mh=60+i*30;
+      const mx2=-((t*0.03*(i+1))%(mw))+(-mw/2);
+      const mg2=cx.createLinearGradient(0,H*(0.6+i*0.1),0,H*(0.6+i*0.1)+mh);
+      mg2.addColorStop(0,'rgba(0,0,0,0)');
+      mg2.addColorStop(0.5,`rgba(15,40,18,${0.12-i*0.03})`);
+      mg2.addColorStop(1,'rgba(0,0,0,0)');
+      cx.fillStyle=mg2;cx.fillRect(mx2,H*(0.6+i*0.1),mw,mh);
+      cx.fillRect(mx2+mw,H*(0.6+i*0.1),mw,mh);
+    }
 
-<footer>
+    // Background trees (dark silhouettes)
+    drawTrees(cx,W,H,t);
+  }
 
-<h3>Mr Mask Men Diaries</h3>
+  function drawTrees(cx,W,H,t){
+    // Far trees
+    cx.fillStyle='rgba(2,10,3,0.9)';
+    const treeX=[0.05,0.12,0.2,0.28,0.36,0.45,0.55,0.63,0.72,0.8,0.88,0.95];
+    const treeH=[0.55,0.62,0.58,0.65,0.6,0.67,0.63,0.59,0.64,0.61,0.57,0.53];
+    treeX.forEach((tx,i)=>{
+      const x=tx*W,baseH=treeH[i]*H;
+      const sway=Math.sin(t*0.0015+i*1.2)*3;
+      cx.beginPath();
+      cx.moveTo(x,H);
+      cx.lineTo(x-18+sway,baseH+40);
+      cx.lineTo(x-30+sway,baseH+20);
+      cx.lineTo(x-18+sway,baseH+30);
+      cx.lineTo(x-22+sway,baseH);
+      cx.lineTo(x-10+sway,baseH+15);
+      cx.lineTo(x+sway*0.5,baseH-20);
+      cx.lineTo(x+10-sway,baseH+15);
+      cx.lineTo(x+22-sway,baseH);
+      cx.lineTo(x+18-sway,baseH+30);
+      cx.lineTo(x+30-sway,baseH+20);
+      cx.lineTo(x+18-sway,baseH+40);
+      cx.lineTo(x,H);
+      cx.fill();
+    });
 
-<p>
+    // Foreground bush silhouettes
+    cx.fillStyle='rgba(1,8,2,1)';
+    for(let i=0;i<8;i++){
+      const bx=i*(W/7);const by=H*0.88;const br=80+Math.sin(i*2.3)*30;
+      cx.beginPath();cx.arc(bx,by,br,Math.PI,0);cx.fill();
+    }
+    // Left & right vines/branches
+    cx.strokeStyle='rgba(3,15,4,1)';cx.lineWidth=18;
+    cx.beginPath();cx.moveTo(0,0);cx.quadraticCurveTo(W*0.08,H*0.3,W*0.05,H*0.7);cx.stroke();
+    cx.lineWidth=12;cx.beginPath();cx.moveTo(0,H*0.1);cx.quadraticCurveTo(W*0.15,H*0.35,W*0.12,H*0.65);cx.stroke();
+    cx.strokeStyle='rgba(3,15,4,0.95)';cx.lineWidth=20;
+    cx.beginPath();cx.moveTo(W,0);cx.quadraticCurveTo(W*0.92,H*0.3,W*0.95,H*0.7);cx.stroke();
+  }
 
-Explore Nature • Capture Adventures • Inspire Journeys
+  function loop(ts){
+    t=ts;
+    drawJungleBG();
+    leaves.forEach(l=>{l.update();l.draw();});
+    fireflies.forEach(f=>{f.update();f.draw();});
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
 
-</p>
+/* ══════════════════════════════════════
+   DUNGEON FIGHTER GAME
+══════════════════════════════════════ */
+const DC=document.getElementById('dungeonCanvas');
+const DX=DC.getContext('2d');
+const DW=DC.width,DH=DC.height;
 
-<div class="socials">
+let dPlayer,dEnemies,dProjectiles,dParticles,dGold=[],dLevel=1,dWave=1,dScore=0,dGoldCount=0;
+let dHP=100,dMaxHP=100,dRunning=false,dPaused=false,dLoop;
+let dKeys={};let dEnemiesKilled=0,dEnemiesThisWave=0;
+let dSpecialCooldown=0,dAttackCooldown=0;
+let dBestScore=0;
 
-<a href="#">YouTube</a>
+function initDungeon(){
+  dPlayer={
+    x:DW/2,y:DH-80,w:32,h:44,
+    vx:0,vy:0,onGround:false,
+    facing:1,attacking:false,attackTimer:0,
+    special:false,specialTimer:0,
+    color:'#39ff14',frame:0,frameTimer:0
+  };
+  dEnemies=[];dProjectiles=[];dParticles=[];dGold=[];
+  dLevel=1;dWave=1;dScore=0;dGoldCount=0;
+  dHP=100;dMaxHP=100;dEnemiesKilled=0;
+  spawnWave();updateDungeonHUD();
+}
 
-<a href="#">Instagram</a>
+function spawnWave(){
+  dEnemiesThisWave=3+dLevel*2+Math.floor(dWave/2);
+  for(let i=0;i<dEnemiesThisWave;i++){
+    const side=Math.random()<0.5?-1:1;
+    const type=dLevel>3&&Math.random()<0.3?'boss':(dLevel>1&&Math.random()<0.4?'fast':'normal');
+    setTimeout(()=>{
+      if(!dRunning)return;
+      dEnemies.push({
+        x:side>0?DW+30:-30,y:DH-60-Math.random()*40,
+        w:type==='boss'?48:30,h:type==='boss'?56:36,
+        vx:side*(type==='fast'?2.5:type==='boss'?1.2:1.8),
+        vy:0,onGround:false,
+        hp:type==='boss'?80+dLevel*20:type==='fast'?20+dLevel*5:35+dLevel*10,
+        maxHp:type==='boss'?80+dLevel*20:type==='fast'?20+dLevel*5:35+dLevel*10,
+        type,dmg:type==='boss'?18:type==='fast'?8:12,
+        attackTimer:0,color:type==='boss'?'#ff3300':type==='fast'?'#ff9900':'#cc3333',
+        frame:0,frameTimer:0,
+      });
+    },i*600);
+  }
+}
 
-<a href="#">Facebook</a>
+const FLOOR=DH-40;
+const PLATFORMS=[
+  {x:80,y:FLOOR-100,w:160,h:14},
+  {x:310,y:FLOOR-140,w:140,h:14},
+  {x:520,y:FLOOR-100,w:160,h:14},
+  {x:180,y:FLOOR-220,w:120,h:14},
+  {x:440,y:FLOOR-200,w:120,h:14},
+];
 
-</div>
+function gravity(obj){
+  obj.vy+=0.55;
+  obj.y+=obj.vy;obj.x+=obj.vx;
+  obj.onGround=false;
+  if(obj.y+obj.h>=FLOOR){obj.y=FLOOR-obj.h;obj.vy=0;obj.onGround=true;}
+  PLATFORMS.forEach(p=>{
+    if(obj.x+obj.w>p.x&&obj.x<p.x+p.w&&obj.y+obj.h>p.y&&obj.y+obj.h<p.y+p.h+obj.vy+2&&obj.vy>=0){
+      obj.y=p.y-obj.h;obj.vy=0;obj.onGround=true;
+    }
+  });
+  obj.x=Math.max(0,Math.min(DW-obj.w,obj.x));
+}
 
-<p class="copyright">
+function attack(){
+  if(dAttackCooldown>0)return;
+  dAttackCooldown=18;
+  dPlayer.attacking=true;dPlayer.attackTimer=12;
+  const ax=dPlayer.facing>0?dPlayer.x+dPlayer.w:dPlayer.x-50;
+  const range=60;
+  dEnemies.forEach(e=>{
+    if(Math.abs(e.x-ax)<range+e.w&&Math.abs(e.y-dPlayer.y)<60){
+      e.hp-=15+dLevel*3;
+      spawnParticles(e.x+e.w/2,e.y,'#ff4444',8);
+      if(e.hp<=0)killEnemy(e);
+    }
+  });
+}
 
-© 2026 Mr Mask Men Diaries
+function special(){
+  if(dSpecialCooldown>0||dGoldCount<5)return;
+  dGoldCount-=5;dSpecialCooldown=180;
+  for(let i=0;i<8;i++){
+    dProjectiles.push({
+      x:dPlayer.x+dPlayer.w/2,y:dPlayer.y+dPlayer.h/2,
+      vx:Math.cos(i*Math.PI/4)*6,vy:Math.sin(i*Math.PI/4)*6,
+      life:60,color:'#39ff14',dmg:25+dLevel*5
+    });
+  }
+  spawnParticles(dPlayer.x+dPlayer.w/2,dPlayer.y,'#39ff14',20);
+  updateDungeonHUD();
+}
 
-</p>
+function killEnemy(e){
+  dScore+=e.type==='boss'?200+dLevel*50:50+dLevel*10;
+  if(dScore>dBestScore)dBestScore=dScore;
+  dGoldCount+=e.type==='boss'?5:1;
+  dEnemiesKilled++;
+  spawnParticles(e.x+e.w/2,e.y,e.color,12);
+  dGold.push({x:e.x+e.w/2,y:e.y,vy:-3,life:80});
+  const idx=dEnemies.indexOf(e);if(idx>-1)dEnemies.splice(idx,1);
+  updateDungeonHUD();
+  if(dEnemies.length===0&&dEnemiesKilled>=dEnemiesThisWave){
+    nextWave();
+  }
+}
 
-</footer>
+function nextWave(){
+  dWave++;
+  if(dWave>3){dWave=1;dLevel++;dMaxHP=Math.min(200,dMaxHP+20);dHP=Math.min(dHP+30,dMaxHP);}
+  setTimeout(()=>{if(dRunning)spawnWave();},1500);
+  updateDungeonHUD();
+}
 
-<!-- NATURE SOUND -->
+function spawnParticles(x,y,color,n){
+  for(let i=0;i<n;i++){
+    dParticles.push({x,y,vx:(Math.random()-0.5)*5,vy:(Math.random()-0.5)*5-2,life:30+Math.random()*20,color});
+  }
+}
 
-<button id="soundBtn">
+function tickDungeon(){
+  // Player movement
+  const spd=4.5;
+  if(dKeys['ArrowLeft']||dKeys['a']){dPlayer.vx=-spd;dPlayer.facing=-1;}
+  else if(dKeys['ArrowRight']||dKeys['d']){dPlayer.vx=spd;dPlayer.facing=1;}
+  else dPlayer.vx*=0.8;
+  if((dKeys['ArrowUp']||dKeys['w']||dKeys[' '])&&dPlayer.onGround){dPlayer.vy=-12;}
+  if(dKeys['z']||dKeys['Z'])attack();
+  if(dKeys['x']||dKeys['X'])special();
+  if(dAttackCooldown>0)dAttackCooldown--;
+  if(dSpecialCooldown>0)dSpecialCooldown--;
+  if(dPlayer.attacking){dPlayer.attackTimer--;if(dPlayer.attackTimer<=0)dPlayer.attacking=false;}
 
-🌿 Nature Sound
+  gravity(dPlayer);
 
-</button>
+  // Enemies AI
+  dEnemies.forEach(e=>{
+    const dx=dPlayer.x-e.x;
+    const spd=e.type==='fast'?2.5:e.type==='boss'?1.2:1.8;
+    e.vx=Math.sign(dx)*spd*(0.9+Math.sin(Date.now()*0.001+e.x)*0.1);
+    gravity(e);
+    // Attack player
+    if(Math.abs(dx)<e.w+20&&Math.abs(dPlayer.y-e.y)<50){
+      e.attackTimer++;
+      if(e.attackTimer>40){
+        e.attackTimer=0;dHP-=e.dmg;
+        if(dHP<=0){dHP=0;gameOverDungeon();return;}
+        updateDungeonHUD();
+      }
+    }
+    // Jump toward platform
+    if(e.onGround&&Math.abs(dPlayer.y-e.y)>60&&Math.random()<0.02)e.vy=-10;
+  });
 
-<audio id="natureAudio" loop>
+  // Projectiles
+  dProjectiles.forEach((p,i)=>{
+    p.x+=p.vx;p.y+=p.vy;p.life--;
+    dEnemies.forEach(e=>{
+      if(p.x>e.x&&p.x<e.x+e.w&&p.y>e.y&&p.y<e.y+e.h){
+        e.hp-=p.dmg;spawnParticles(p.x,p.y,'#39ff14',5);
+        p.life=0;if(e.hp<=0)killEnemy(e);
+      }
+    });
+  });
+  dProjectiles=dProjectiles.filter(p=>p.life>0);
 
-<source src="assets/nature.mp3">
+  // Particles & gold
+  dParticles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.2;p.life--;});
+  dParticles=dParticles.filter(p=>p.life>0);
+  dGold.forEach(g=>{g.y+=g.vy;g.vy+=0.3;g.life--;});
+  dGold=dGold.filter(g=>g.life>0);
 
-</audio>
+  drawDungeon();
+}
 
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+function drawDungeon(){
+  // BG
+  DX.fillStyle='#020704';DX.fillRect(0,0,DW,DH);
+  // BG gradient
+  const bg=DX.createLinearGradient(0,0,0,DH);
+  bg.addColorStop(0,'#010603');bg.addColorStop(1,'#040e06');
+  DX.fillStyle=bg;DX.fillRect(0,0,DW,DH);
+  // Torches
+  [[80,FLOOR-110],[DW-80,FLOOR-110],[DW/2,FLOOR-160]].forEach(([tx,ty])=>{
+    const flicker=0.7+Math.random()*0.3;
+    const tg=DX.createRadialGradient(tx,ty,0,tx,ty,60*flicker);
+    tg.addColorStop(0,`rgba(255,140,0,${0.25*flicker})`);
+    tg.addColorStop(1,'rgba(0,0,0,0)');
+    DX.fillStyle=tg;DX.fillRect(tx-60,ty-60,120,120);
+    DX.fillStyle='#ff9900';DX.fillRect(tx-3,ty,6,14);
+    DX.fillStyle=`rgba(255,${100+Math.random()*100},0,0.9)`;
+    DX.beginPath();DX.ellipse(tx,ty,4+Math.random()*2,8+Math.random()*4,0,0,Math.PI*2);DX.fill();
+  });
+  // Floor
+  DX.fillStyle='#0d2010';DX.fillRect(0,FLOOR,DW,DH-FLOOR);
+  DX.fillStyle='rgba(57,255,20,0.08)';DX.fillRect(0,FLOOR,DW,2);
+  // Platforms
+  PLATFORMS.forEach(p=>{
+    DX.fillStyle='#0d2010';DX.fillRect(p.x,p.y,p.w,p.h);
+    DX.fillStyle='rgba(57,255,20,0.15)';DX.fillRect(p.x,p.y,p.w,3);
+  });
+  // Gold drops
+  dGold.forEach(g=>{
+    DX.fillStyle='#ffd700';DX.beginPath();DX.arc(g.x,g.y,5,0,Math.PI*2);DX.fill();
+  });
+  // Particles
+  dParticles.forEach(p=>{
+    DX.globalAlpha=p.life/50;DX.fillStyle=p.color;
+    DX.beginPath();DX.arc(p.x,p.y,3,0,Math.PI*2);DX.fill();
+  });
+  DX.globalAlpha=1;
+  // Projectiles
+  dProjectiles.forEach(p=>{
+    DX.fillStyle=p.color;DX.shadowColor=p.color;DX.shadowBlur=10;
+    DX.beginPath();DX.arc(p.x,p.y,4,0,Math.PI*2);DX.fill();
+    DX.shadowBlur=0;
+  });
+  // Enemies
+  dEnemies.forEach(e=>{
+    // Shadow
+    DX.fillStyle='rgba(0,0,0,0.3)';DX.beginPath();DX.ellipse(e.x+e.w/2,FLOOR+2,e.w/2,6,0,0,Math.PI*2);DX.fill();
+    // Body
+    DX.fillStyle=e.color;DX.shadowColor=e.color;DX.shadowBlur=8;
+    DX.beginPath();DX.roundRect(e.x,e.y,e.w,e.h,6);DX.fill();
+    DX.shadowBlur=0;
+    // Eyes
+    DX.fillStyle='#fff';
+    DX.fillRect(e.x+4,e.y+8,8,6);DX.fillRect(e.x+e.w-12,e.y+8,8,6);
+    DX.fillStyle='#000';
+    DX.fillRect(e.x+6,e.y+9,4,4);DX.fillRect(e.x+e.w-10,e.y+9,4,4);
+    // HP bar
+    const hpW=e.w*(e.hp/e.maxHp);
+    DX.fillStyle='#300';DX.fillRect(e.x,e.y-10,e.w,5);
+    DX.fillStyle='#f33';DX.fillRect(e.x,e.y-10,hpW,5);
+    if(e.type==='boss'){
+      DX.fillStyle='#ffd700';DX.font='bold 9px Exo 2';DX.textAlign='center';
+      DX.fillText('BOSS',e.x+e.w/2,e.y-14);
+    }
+  });
+  // Player
+  const p=dPlayer;
+  DX.fillStyle='rgba(0,0,0,0.3)';DX.beginPath();DX.ellipse(p.x+p.w/2,FLOOR+2,p.w/2,6,0,0,Math.PI*2);DX.fill();
+  // Body glow
+  DX.shadowColor='#39ff14';DX.shadowBlur=p.attacking?20:8;
+  DX.fillStyle='#1a4a1a';DX.beginPath();DX.roundRect(p.x,p.y,p.w,p.h,6);DX.fill();
+  // Armor
+  DX.fillStyle=p.attacking?'#39ff14':'#2a6a2a';DX.fillRect(p.x+4,p.y+8,p.w-8,p.h-16);
+  // Face
+  DX.fillStyle='#00cc44';DX.fillRect(p.x+4,p.y+4,p.w-8,12);
+  DX.fillStyle='#fff';
+  const ex=p.facing>0?p.x+p.w-14:p.x+6;
+  DX.fillRect(ex,p.y+6,8,6);DX.fillStyle='#000';DX.fillRect(ex+2,p.y+7,4,4);
+  // Sword
+  if(p.attacking){
+    const sx=p.facing>0?p.x+p.w:p.x-14;
+    DX.fillStyle='#ffd700';DX.shadowColor='#ffd700';DX.shadowBlur=15;
+    DX.fillRect(sx,p.y+p.h/2-3,p.facing>0?40:-40,6);
+  }
+  DX.shadowBlur=0;
+  // Special cooldown indicator
+  if(dSpecialCooldown>0){
+    DX.fillStyle='rgba(57,255,20,0.2)';
+    DX.fillRect(p.x,p.y-20,p.w*(1-dSpecialCooldown/180),4);
+  }
+  // Wave clear text
+}
 
-<script src="https://unpkg.com/scrollreveal"></script>
+function updateDungeonHUD(){
+  document.getElementById('d-level').textContent=dLevel;
+  document.getElementById('d-wave').textContent=dWave+'/3';
+  document.getElementById('d-score').textContent=dScore;
+  document.getElementById('d-gold').textContent=dGoldCount;
+  const hp=Math.max(0,dHP),pct=(hp/dMaxHP)*100;
+  document.getElementById('health-fill').style.width=pct+'%';
+  document.getElementById('health-text').textContent=hp+'/'+dMaxHP;
+  document.getElementById('health-fill').style.background=
+    pct>60?'linear-gradient(90deg,#33cc33,#66ff66)':
+    pct>30?'linear-gradient(90deg,#cc9900,#ffcc00)':
+    'linear-gradient(90deg,#cc0000,#ff3333)';
+}
 
-<script src="script.js"></script>
+function gameOverDungeon(){
+  clearInterval(dLoop);dRunning=false;
+  document.getElementById('dmsg-title').textContent='💀 Game Over!';
+  document.getElementById('dmsg-sub').innerHTML=
+    `Score: <b style="color:#39ff14">${dScore}</b> &nbsp;|&nbsp; Level: <b style="color:#ffd700">${dLevel}</b><br>
+    <span style="font-size:0.8rem;color:#5a7a5a">Best: ${dBestScore}</span>`;
+  document.getElementById('dungeonMsg').style.display='block';
+}
 
+function startDungeon(){
+  document.getElementById('dungeonMsg').style.display='none';
+  initDungeon();dRunning=true;dPaused=false;
+  clearInterval(dLoop);dLoop=setInterval(tickDungeon,1000/60);
+}
+function pauseDungeon(){
+  if(!dRunning)return;
+  if(dPaused){dPaused=false;dLoop=setInterval(tickDungeon,1000/60);}
+  else{dPaused=true;clearInterval(dLoop);}
+}
+function resetDungeon(){
+  clearInterval(dLoop);dRunning=false;
+  DX.fillStyle='#020704';DX.fillRect(0,0,DW,DH);
+  document.getElementById('dungeonMsg').style.display='block';
+  document.getElementById('dmsg-title').textContent='⚔️ Dungeon Fighter';
+  document.getElementById('dmsg-sub').innerHTML='Fight endless waves of enemies!<br>Use Arrow Keys / WASD + Z to attack • X for Special (costs 5 gold)';
+}
+
+document.addEventListener('keydown',e=>{dKeys[e.key]=true;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();});
+document.addEventListener('keyup',e=>{dKeys[e.key]=false;});
+
+// Show initial screen
+resetDungeon();
+
+/* ══════════════════════════════════════
+   SNAKE ADVENTURE GAME
+══════════════════════════════════════ */
+const SC=document.getElementById('snakeCanvas');
+const SX=SC.getContext('2d');
+const SW=SC.width,SH=SC.height;
+const SGRID=20,SCOLS=SW/SGRID,SROWS=SH/SGRID;
+let sSnake,sDir,sNextDir,sFood,sScore=0,sBest=0,sLevel=1,sLoop2,sRunning=false,sPaused=false;
+
+function startSnake(){
+  sSnake=[{x:10,y:8}];sDir={x:1,y:0};sNextDir={x:1,y:0};
+  sScore=0;sLevel=1;placeSFood();
+  if(sLoop2)clearInterval(sLoop2);
+  sRunning=true;sPaused=false;
+  sLoop2=setInterval(snakeTick,160-sLevel*8);
+  updateSnakeHUD();
+}
+function pauseSnake(){
+  if(!sRunning)return;
+  if(sPaused){sPaused=false;sLoop2=setInterval(snakeTick,160-sLevel*8);}
+  else{sPaused=true;clearInterval(sLoop2);}
+}
+function placeSFood(){
+  do{sFood={x:Math.floor(Math.random()*SCOLS),y:Math.floor(Math.random()*SROWS)};}
+  while(sSnake.some(s=>s.x===sFood.x&&s.y===sFood.y));
+}
+function sd(dx,dy){if(sRunning&&!sPaused)sNextDir={x:dx,y:dy};}
+function snakeTick(){
+  if(sNextDir.x!==-(sDir.x)||sNextDir.y!==-(sDir.y))sDir={...sNextDir};
+  const head={x:sSnake[0].x+sDir.x,y:sSnake[0].y+sDir.y};
+  if(head.x<0||head.x>=SCOLS||head.y<0||head.y>=SROWS||sSnake.some(s=>s.x===head.x&&s.y===head.y)){
+    snakeOver();return;
+  }
+  sSnake.unshift(head);
+  if(head.x===sFood.x&&head.y===sFood.y){
+    sScore+=10*sLevel;if(sScore>sBest)sBest=sScore;
+    if(sScore%(50*sLevel)===0&&sLevel<9){sLevel++;clearInterval(sLoop2);sLoop2=setInterval(snakeTick,160-sLevel*8);}
+    placeSFood();updateSnakeHUD();
+  }else sSnake.pop();
+  drawSnake();
+}
+function drawSnake(){
+  SX.fillStyle='#020704';SX.fillRect(0,0,SW,SH);
+  // Grid
+  SX.strokeStyle='rgba(57,255,20,0.04)';SX.lineWidth=0.5;
+  for(let x=0;x<SCOLS;x++){SX.beginPath();SX.moveTo(x*SGRID,0);SX.lineTo(x*SGRID,SH);SX.stroke();}
+  for(let y=0;y<SROWS;y++){SX.beginPath();SX.moveTo(0,y*SGRID);SX.lineTo(SW,y*SGRID);SX.stroke();}
+  // Food
+  SX.fillStyle='#ff4466';SX.shadowColor='#ff4466';SX.shadowBlur=14;
+  SX.beginPath();SX.arc(sFood.x*SGRID+SGRID/2,sFood.y*SGRID+SGRID/2,SGRID/2-2,0,Math.PI*2);SX.fill();
+  SX.shadowBlur=0;
+  // Snake
+  sSnake.forEach((s,i)=>{
+    const a=1-i/sSnake.length*0.4;
+    SX.fillStyle=i===0?`rgba(57,255,20,${a})`:`rgba(20,160,60,${a})`;
+    SX.shadowColor=i===0?'#39ff14':'transparent';SX.shadowBlur=i===0?12:0;
+    SX.beginPath();SX.roundRect(s.x*SGRID+1,s.y*SGRID+1,SGRID-2,SGRID-2,4);SX.fill();
+    SX.shadowBlur=0;
+  });
+}
+function snakeOver(){
+  clearInterval(sLoop2);sRunning=false;
+  SX.fillStyle='rgba(4,12,6,0.88)';SX.fillRect(0,0,SW,SH);
+  SX.fillStyle='#39ff14';SX.font='bold 28px Cinzel';SX.textAlign='center';SX.fillText('GAME OVER',SW/2,SH/2-20);
+  SX.fillStyle='#7aaa7a';SX.font='16px Exo 2';SX.fillText(`Score: ${sScore}  |  Best: ${sBest}`,SW/2,SH/2+16);
+  SX.fillStyle='#4a6a4a';SX.font='13px Exo 2';SX.fillText('Press ▶ Start to play again',SW/2,SH/2+44);
+  updateSnakeHUD();
+}
+function updateSnakeHUD(){
+  document.getElementById('s-score').textContent=sScore;
+  document.getElementById('s-best').textContent=sBest;
+  document.getElementById('s-level').textContent=sLevel;
+}
+document.addEventListener('keydown',e=>{
+  const m={ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0}};
+  if(m[e.key]&&sRunning){e.preventDefault();sNextDir=m[e.key];}
+});
+// Initial snake screen
+SX.fillStyle='#020704';SX.fillRect(0,0,SW,SH);
+SX.fillStyle='rgba(57,255,20,0.6)';SX.font='bold 20px Cinzel';SX.textAlign='center';
+SX.fillText('🐍 Snake Adventure',SW/2,SH/2-10);
+SX.fillStyle='rgba(57,255,20,0.3)';SX.font='14px Exo 2';SX.fillText('Press ▶ Start to play',SW/2,SH/2+20);
+updateSnakeHUD();
+</script>
 </body>
 </html>
