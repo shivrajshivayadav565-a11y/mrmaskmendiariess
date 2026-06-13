@@ -5,288 +5,394 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mr Mask Men Diaries</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    :root{--green:#00ff88;--dark:#0a0a0a;--nav-h:70px;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Segoe UI',sans-serif;background:var(--dark);color:#fff;overflow-x:hidden;}
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #0a0a0a;
-      color: #fff;
-      overflow-x: hidden;
-    }
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(10,10,10,0.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,255,136,0.1);}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:700;color:var(--green);text-decoration:none;}
+    .nav-links{display:flex;gap:36px;list-style:none;}
+    .nav-links a{color:#ccc;text-decoration:none;font-size:0.95rem;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--green);}
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 48px;
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(8px);
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #00ff88;
-    }
-    .logo-icon { font-size: 1.5rem; }
-    .nav-links { display: flex; gap: 36px; list-style: none; }
-    .nav-links a {
-      color: #ccc;
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: #00ff88; }
+    /* HERO */
+    .hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;}
+    #bgCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+    .hero-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.55);z-index:1;}
+    .hero-content{position:relative;z-index:2;}
+    .hero-content h1{font-size:clamp(2.5rem,6vw,5rem);font-weight:800;letter-spacing:-1px;margin-bottom:20px;text-shadow:0 2px 20px rgba(0,0,0,0.8);}
+    .hero-content p{font-size:clamp(1rem,2vw,1.3rem);font-weight:600;color:#e0e0e0;margin-bottom:36px;letter-spacing:0.5px;}
+    .btn-subscribe{display:inline-block;padding:14px 36px;background:var(--green);color:#0a0a0a;font-weight:700;font-size:1rem;border-radius:50px;border:none;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 0 24px rgba(0,255,136,0.45);text-decoration:none;}
+    .btn-subscribe:hover{transform:scale(1.07);box-shadow:0 0 40px rgba(0,255,136,0.7);}
+    .scroll-indicator{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.6;animation:bob 2s ease-in-out infinite;}
+    .scroll-indicator span{font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;}
+    @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);opacity:0.4;}50%{transform:translateX(-50%) translateY(6px);opacity:0.8;}}
 
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
-    }
+    /* SECTIONS */
+    section.page-section{padding:100px 48px;max-width:1200px;margin:0 auto;}
+    .section-title{font-size:2.2rem;font-weight:800;color:var(--green);margin-bottom:12px;}
+    .section-sub{color:#aaa;font-size:1rem;margin-bottom:48px;}
+    .divider{width:60px;height:4px;background:var(--green);border-radius:2px;margin-bottom:16px;}
 
-    /* Canvas BG */
-    #bgCanvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
+    /* ABOUT */
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+    .about-text p{color:#ccc;line-height:1.8;margin-bottom:16px;font-size:1rem;}
+    .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .stat-card{background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.2);border-radius:16px;padding:24px;text-align:center;}
+    .stat-card .num{font-size:2rem;font-weight:800;color:var(--green);}
+    .stat-card .lbl{font-size:0.85rem;color:#aaa;margin-top:4px;}
 
-    /* Overlay gradient to keep text readable */
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center,
-        rgba(0,0,0,0.35) 0%,
-        rgba(0,0,0,0.65) 100%);
-      z-index: 1;
-    }
+    /* VIDEOS */
+    .video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+    .video-card{background:#111;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);transition:transform 0.25s,border-color 0.25s;cursor:pointer;}
+    .video-card:hover{transform:translateY(-6px);border-color:rgba(0,255,136,0.4);}
+    .video-thumb{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#0d2b1a,#1a3a2a);display:flex;align-items:center;justify-content:center;font-size:3rem;}
+    .video-info{padding:16px;}
+    .video-info h3{font-size:1rem;font-weight:700;margin-bottom:6px;}
+    .video-info p{font-size:0.8rem;color:#888;}
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-    }
-    .hero-content h1 {
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: 20px;
-    }
-    .hero-content p {
-      font-size: clamp(1rem, 2vw, 1.3rem);
-      font-weight: 600;
-      color: #e0e0e0;
-      margin-bottom: 36px;
-      letter-spacing: 0.5px;
-    }
-    .btn-subscribe {
-      display: inline-block;
-      padding: 14px 36px;
-      background: #00ff88;
-      color: #0a0a0a;
-      font-weight: 700;
-      font-size: 1rem;
-      border-radius: 50px;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 24px rgba(0,255,136,0.45);
-    }
-    .btn-subscribe:hover {
-      transform: scale(1.07);
-      box-shadow: 0 0 40px rgba(0,255,136,0.7);
-    }
+    /* GAMES */
+    .game-container{background:#0d1117;border:1px solid rgba(0,255,136,0.2);border-radius:20px;padding:32px;text-align:center;}
+    .game-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+    .game-header h3{font-size:1.2rem;font-weight:700;color:var(--green);}
+    .score-board{display:flex;gap:24px;}
+    .score-item{text-align:center;}
+    .score-item .s-num{font-size:1.5rem;font-weight:800;color:var(--green);}
+    .score-item .s-lbl{font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:1px;}
+    #snake-canvas{border:2px solid rgba(0,255,136,0.3);border-radius:12px;background:#050a05;display:block;margin:0 auto;}
+    .game-controls{margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+    .game-btn{padding:10px 28px;border-radius:50px;border:1px solid rgba(0,255,136,0.4);background:transparent;color:var(--green);font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.2s;}
+    .game-btn:hover,.game-btn.active{background:var(--green);color:#0a0a0a;}
+    .d-pad{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(2,44px);gap:6px;margin:16px auto 0;width:fit-content;}
+    .d-btn{width:44px;height:44px;border-radius:10px;border:1px solid rgba(0,255,136,0.3);background:rgba(0,255,136,0.05);color:var(--green);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+    .d-btn:active{background:rgba(0,255,136,0.25);}
 
-    /* ── SCROLL INDICATOR ── */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      opacity: 0.5;
-      animation: fadeUpDown 2s ease-in-out infinite;
+    /* CONTACT */
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+    .contact-info p{color:#aaa;line-height:1.8;margin-bottom:24px;}
+    .contact-links{display:flex;flex-direction:column;gap:16px;}
+    .contact-link{display:flex;align-items:center;gap:12px;color:#ccc;text-decoration:none;font-size:0.95rem;transition:color 0.2s;}
+    .contact-link:hover{color:var(--green);}
+    .contact-link .icon{width:40px;height:40px;border-radius:50%;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+    .contact-form{display:flex;flex-direction:column;gap:16px;}
+    .contact-form input,.contact-form textarea{background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 18px;color:#fff;font-size:0.95rem;outline:none;transition:border-color 0.2s;font-family:inherit;}
+    .contact-form input:focus,.contact-form textarea:focus{border-color:rgba(0,255,136,0.5);}
+    .contact-form textarea{min-height:120px;resize:vertical;}
+    .contact-form button{padding:14px;background:var(--green);color:#0a0a0a;font-weight:700;border:none;border-radius:50px;cursor:pointer;font-size:1rem;transition:transform 0.2s;}
+    .contact-form button:hover{transform:scale(1.03);}
+
+    /* FOOTER */
+    footer{text-align:center;padding:40px;border-top:1px solid rgba(255,255,255,0.06);color:#555;font-size:0.85rem;}
+    footer span{color:var(--green);}
+
+    /* GAME OVER OVERLAY */
+    #game-msg{display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);border:1px solid var(--green);border-radius:16px;padding:32px 48px;text-align:center;z-index:10;}
+    #game-msg h2{font-size:1.8rem;color:var(--green);margin-bottom:8px;}
+    #game-msg p{color:#aaa;margin-bottom:20px;}
+    .game-wrap{position:relative;display:inline-block;}
+
+    @media(max-width:768px){
+      nav{padding:0 20px;}.nav-links{gap:16px;}
+      section.page-section{padding:80px 20px;}
+      .about-grid,.contact-grid{grid-template-columns:1fr;}
+      .video-grid{grid-template-columns:1fr 1fr;}
     }
-    .scroll-indicator span { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
-    .scroll-indicator .arrow { font-size: 1.2rem; }
-    @keyframes fadeUpDown {
-      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
-      50% { transform: translateX(-50%) translateY(6px); opacity: 0.8; }
-    }
+    @media(max-width:480px){.video-grid{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <div class="logo">
-    <span class="logo-icon">🎭</span>
-    Mr Mask Men Diaries
-  </div>
+  <a href="#home" class="logo">🎭 Mr Mask Men Diaries</a>
   <ul class="nav-links">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
-    <li><a href="#">Videos</a></li>
-    <li><a href="#">Contact</a></li>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#games">Games</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="home">
   <canvas id="bgCanvas"></canvas>
-
+  <div class="hero-overlay"></div>
   <div class="hero-content">
     <h1>Mr Mask Men Diaries</h1>
     <p>Explore Nature &bull; Capture Adventures &bull; Inspire Journeys</p>
-    <button class="btn-subscribe">Subscribe Now</button>
+    <a class="btn-subscribe" href="https://www.youtube.com/@MrMaskMenDiaries?sub_confirmation=1" target="_blank" rel="noopener">Subscribe Now</a>
   </div>
-
   <div class="scroll-indicator">
     <span>Scroll</span>
-    <span class="arrow">↓</span>
+    <span>↓</span>
   </div>
 </section>
 
+<!-- ABOUT -->
+<div id="about" style="background:#0d0d0d;">
+  <section class="page-section">
+    <div class="divider"></div>
+    <h2 class="section-title">About Us</h2>
+    <p class="section-sub">Who we are and what drives us</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Mr Mask Men Diaries is a travel & nature adventure channel dedicated to exploring the unseen corners of the world — from misty mountain trails to vibrant cultural streets.</p>
+        <p>We believe every journey has a story worth telling. With a camera in hand and a mask of mystery, we capture raw, authentic moments that inspire you to step outside and explore.</p>
+        <p>Join our growing community of adventurers and nature lovers. Every video is a new diary entry — a new chapter waiting to be lived.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card"><div class="num">50+</div><div class="lbl">Videos Published</div></div>
+        <div class="stat-card"><div class="num">10K+</div><div class="lbl">Subscribers</div></div>
+        <div class="stat-card"><div class="num">25+</div><div class="lbl">Locations Covered</div></div>
+        <div class="stat-card"><div class="num">100K+</div><div class="lbl">Total Views</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- VIDEOS -->
+<div id="videos" style="background:var(--dark);">
+  <section class="page-section">
+    <div class="divider"></div>
+    <h2 class="section-title">Latest Videos</h2>
+    <p class="section-sub">Our most recent adventures — click to watch on YouTube</p>
+    <div class="video-grid">
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+        <div class="video-thumb">🏔️</div>
+        <div class="video-info"><h3>Mountain Trail Diaries</h3><p>Epic trek through misty peaks</p></div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+        <div class="video-thumb">🌊</div>
+        <div class="video-info"><h3>Coastal Adventures</h3><p>Sunrise at the hidden beaches</p></div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+        <div class="video-thumb">🌿</div>
+        <div class="video-info"><h3>Into the Forest</h3><p>Deep jungle exploration</p></div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+        <div class="video-thumb">🌅</div>
+        <div class="video-info"><h3>Desert Sunsets</h3><p>Golden hour in the dunes</p></div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+        <div class="video-thumb">🏕️</div>
+        <div class="video-info"><h3>Camp Under Stars</h3><p>Overnight wilderness camp</p></div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+        <div class="video-thumb">🦋</div>
+        <div class="video-info"><h3>Wildlife Moments</h3><p>Nature's rarest encounters</p></div>
+      </a>
+    </div>
+  </section>
+</div>
+
+<!-- GAMES -->
+<div id="games" style="background:#0d0d0d;">
+  <section class="page-section">
+    <div class="divider"></div>
+    <h2 class="section-title">Play Games</h2>
+    <p class="section-sub">Take a break and have fun — Snake Game!</p>
+    <div class="game-container">
+      <div class="game-header">
+        <h3>🐍 Snake Game</h3>
+        <div class="score-board">
+          <div class="score-item"><div class="s-num" id="score">0</div><div class="s-lbl">Score</div></div>
+          <div class="score-item"><div class="s-num" id="high-score">0</div><div class="s-lbl">Best</div></div>
+          <div class="score-item"><div class="s-num" id="level-display">1</div><div class="s-lbl">Level</div></div>
+        </div>
+      </div>
+      <div class="game-wrap">
+        <canvas id="snake-canvas" width="400" height="400"></canvas>
+        <div id="game-msg">
+          <h2 id="msg-title">Game Over!</h2>
+          <p id="msg-sub">Score: <span id="final-score">0</span></p>
+          <button class="game-btn" onclick="startGame()">Play Again</button>
+        </div>
+      </div>
+      <div class="game-controls">
+        <button class="game-btn" id="start-btn" onclick="startGame()">▶ Start</button>
+        <button class="game-btn" onclick="pauseGame()">⏸ Pause</button>
+        <button class="game-btn" onclick="resetGame()">↺ Reset</button>
+      </div>
+      <!-- D-pad for mobile -->
+      <div class="d-pad" style="display:none;" id="dpad">
+        <div></div>
+        <button class="d-btn" onclick="setDir(0,-1)">▲</button>
+        <div></div>
+        <button class="d-btn" onclick="setDir(-1,0)">◀</button>
+        <button class="d-btn" onclick="setDir(0,1)">▼</button>
+        <button class="d-btn" onclick="setDir(1,0)">▶</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" style="background:var(--dark);">
+  <section class="page-section">
+    <div class="divider"></div>
+    <h2 class="section-title">Contact Us</h2>
+    <p class="section-sub">Get in touch — we'd love to hear from you</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>Have a collaboration idea, travel suggestion, or just want to say hello? Drop us a message and we'll get back to you as soon as possible.</p>
+        <div class="contact-links">
+          <a class="contact-link" href="https://www.youtube.com/@MrMaskMenDiaries" target="_blank" rel="noopener">
+            <div class="icon">▶</div> YouTube Channel
+          </a>
+          <a class="contact-link" href="mailto:mrmaskmend@gmail.com">
+            <div class="icon">✉</div> mrmaskmend@gmail.com
+          </a>
+          <a class="contact-link" href="https://www.instagram.com/mrmaskmend" target="_blank" rel="noopener">
+            <div class="icon">📸</div> @mrmaskmend
+          </a>
+        </div>
+      </div>
+      <div class="contact-form">
+        <input type="text" placeholder="Your Name" />
+        <input type="email" placeholder="Your Email" />
+        <textarea placeholder="Your Message..."></textarea>
+        <button>Send Message</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Made with ❤️ by <span>Mr Mask Men Diaries</span> &copy; 2024. All rights reserved.</p>
+</footer>
+
 <script>
-/* ── ANIMATED BACKGROUND: flowing aurora + particles ── */
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
+/* ── BACKGROUND CANVAS ANIMATION ── */
+const canvas=document.getElementById('bgCanvas');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[],time=0;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',()=>{resize();initP();});
+class P{constructor(){this.reset(true);}reset(init=false){this.x=Math.random()*W;this.y=init?Math.random()*H:H+10;this.r=Math.random()*2+0.5;this.speed=Math.random()*0.6+0.2;this.alpha=Math.random()*0.6+0.1;this.hue=Math.random()<0.6?150:(Math.random()<0.5?180:120);}update(){this.y-=this.speed;this.x+=Math.sin(time*0.01+this.y*0.02)*0.3;if(this.y<-10)this.reset();}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`hsla(${this.hue},100%,65%,${this.alpha})`;ctx.fill();}}
+function initP(){particles=Array.from({length:120},()=>new P());}initP();
+function drawAurora(){const layers=[{y:H*0.55,amp:90,speed:0.0007,hue:150,alpha:0.12},{y:H*0.65,amp:70,speed:0.0011,hue:170,alpha:0.10},{y:H*0.45,amp:110,speed:0.0005,hue:130,alpha:0.08}];layers.forEach(l=>{ctx.beginPath();ctx.moveTo(0,H);for(let x=0;x<=W;x+=4){const y=l.y+Math.sin(x*0.004+time*l.speed*1000)*l.amp+Math.sin(x*0.008+time*l.speed*800+1)*(l.amp*0.4);ctx.lineTo(x,y);}ctx.lineTo(W,H);ctx.closePath();const g=ctx.createLinearGradient(0,l.y-l.amp,0,l.y+l.amp);g.addColorStop(0,`hsla(${l.hue},100%,55%,${l.alpha*1.5})`);g.addColorStop(1,`hsla(${l.hue},100%,35%,0)`);ctx.fillStyle=g;ctx.fill();});}
+function drawGlow(){const cx=W*0.5+Math.sin(time*0.0004)*W*0.15,cy=H*0.45+Math.cos(time*0.0003)*H*0.1,rad=Math.min(W,H)*0.55;const g=ctx.createRadialGradient(cx,cy,0,cx,cy,rad);g.addColorStop(0,'rgba(0,255,136,0.07)');g.addColorStop(0.5,'rgba(0,200,255,0.04)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);}
+function drawGrid(){ctx.strokeStyle='rgba(0,255,136,0.04)';ctx.lineWidth=1;const s=60;for(let x=0;x<W;x+=s){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(let y=0;y<H;y+=s){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}}
+function animBG(ts){time=ts;ctx.clearRect(0,0,W,H);ctx.fillStyle='#080b10';ctx.fillRect(0,0,W,H);drawGrid();drawGlow();drawAurora();particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animBG);}
+requestAnimationFrame(animBG);
 
-let W, H, particles = [], time = 0;
+/* ── SNAKE GAME ── */
+const sc=document.getElementById('snake-canvas');
+const gc=sc.getContext('2d');
+const GRID=20,COLS=sc.width/GRID,ROWS=sc.height/GRID;
+let snake,dir,nextDir,food,score,hiScore=0,level,gameLoop,running=false,paused=false;
 
-function resize() {
-  W = canvas.width  = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', () => { resize(); initParticles(); });
-
-/* Particles */
-class Particle {
-  constructor() { this.reset(true); }
-  reset(initial = false) {
-    this.x = Math.random() * W;
-    this.y = initial ? Math.random() * H : H + 10;
-    this.r = Math.random() * 2 + 0.5;
-    this.speed = Math.random() * 0.6 + 0.2;
-    this.alpha = Math.random() * 0.6 + 0.1;
-    this.hue = Math.random() < 0.6 ? 150 : (Math.random() < 0.5 ? 180 : 120);
-  }
-  update() {
-    this.y -= this.speed;
-    this.x += Math.sin(time * 0.01 + this.y * 0.02) * 0.3;
-    if (this.y < -10) this.reset();
-  }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${this.hue}, 100%, 65%, ${this.alpha})`;
-    ctx.fill();
-  }
+function startGame(){
+  document.getElementById('game-msg').style.display='none';
+  snake=[{x:10,y:10}];
+  dir={x:1,y:0};nextDir={x:1,y:0};
+  score=0;level=1;
+  placeFood();
+  updateScoreUI();
+  if(gameLoop)clearInterval(gameLoop);
+  running=true;paused=false;
+  gameLoop=setInterval(tick,160-level*10);
+  document.getElementById('start-btn').textContent='▶ Playing';
 }
 
-function initParticles() {
-  particles = Array.from({ length: 120 }, () => new Particle());
+function resetGame(){
+  clearInterval(gameLoop);running=false;paused=false;
+  gc.clearRect(0,0,sc.width,sc.height);
+  drawStartScreen();
+  document.getElementById('game-msg').style.display='none';
+  document.getElementById('start-btn').textContent='▶ Start';
+  score=0;level=1;updateScoreUI();
 }
-initParticles();
 
-/* Aurora waves */
-function drawAurora() {
-  const layers = [
-    { y: H * 0.55, amp: 90,  speed: 0.0007, hue: 150, alpha: 0.12 },
-    { y: H * 0.65, amp: 70,  speed: 0.0011, hue: 170, alpha: 0.10 },
-    { y: H * 0.45, amp: 110, speed: 0.0005, hue: 130, alpha: 0.08 },
-  ];
+function pauseGame(){
+  if(!running)return;
+  if(paused){paused=false;gameLoop=setInterval(tick,160-level*10);}
+  else{paused=true;clearInterval(gameLoop);drawPause();}
+}
 
-  layers.forEach(l => {
-    ctx.beginPath();
-    ctx.moveTo(0, H);
-    for (let x = 0; x <= W; x += 4) {
-      const y = l.y
-        + Math.sin(x * 0.004 + time * l.speed * 1000) * l.amp
-        + Math.sin(x * 0.008 + time * l.speed * 800 + 1) * (l.amp * 0.4);
-      ctx.lineTo(x, y);
-    }
-    ctx.lineTo(W, H);
-    ctx.closePath();
+function setDir(dx,dy){if(running&&!paused){nextDir={x:dx,y:dy};}}
 
-    const grad = ctx.createLinearGradient(0, l.y - l.amp, 0, l.y + l.amp);
-    grad.addColorStop(0, `hsla(${l.hue}, 100%, 55%, ${l.alpha * 1.5})`);
-    grad.addColorStop(1, `hsla(${l.hue}, 100%, 35%, 0)`);
-    ctx.fillStyle = grad;
-    ctx.fill();
+function placeFood(){
+  do{food={x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)};}
+  while(snake.some(s=>s.x===food.x&&s.y===food.y));
+}
+
+function tick(){
+  if(nextDir.x!==-(dir.x)||nextDir.y!==-(dir.y))dir={...nextDir};
+  const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+  if(head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS||snake.some(s=>s.x===head.x&&s.y===head.y)){
+    gameOver();return;
+  }
+  snake.unshift(head);
+  if(head.x===food.x&&head.y===food.y){
+    score+=10*level;if(score>hiScore)hiScore=score;
+    if(score%(50*level)===0&&level<9){level++;clearInterval(gameLoop);gameLoop=setInterval(tick,160-level*10);}
+    placeFood();updateScoreUI();
+  }else{snake.pop();}
+  draw();
+}
+
+function draw(){
+  gc.fillStyle='#050a05';gc.fillRect(0,0,sc.width,sc.height);
+  // Grid dots
+  gc.fillStyle='rgba(0,255,136,0.04)';
+  for(let x=0;x<COLS;x++)for(let y=0;y<ROWS;y++){gc.beginPath();gc.arc(x*GRID+GRID/2,y*GRID+GRID/2,1,0,Math.PI*2);gc.fill();}
+  // Food
+  gc.fillStyle='#ff4466';gc.shadowColor='#ff4466';gc.shadowBlur=12;
+  gc.beginPath();gc.arc(food.x*GRID+GRID/2,food.y*GRID+GRID/2,GRID/2-2,0,Math.PI*2);gc.fill();
+  gc.shadowBlur=0;
+  // Snake
+  snake.forEach((s,i)=>{
+    const alpha=1-i/snake.length*0.5;
+    gc.fillStyle=i===0?`rgba(0,255,136,${alpha})`:`rgba(0,200,100,${alpha})`;
+    gc.shadowColor='#00ff88';gc.shadowBlur=i===0?16:0;
+    gc.beginPath();gc.roundRect(s.x*GRID+1,s.y*GRID+1,GRID-2,GRID-2,4);gc.fill();
+    gc.shadowBlur=0;
   });
 }
 
-/* Subtle moving radial glow */
-function drawGlow() {
-  const cx = W * 0.5 + Math.sin(time * 0.0004) * W * 0.15;
-  const cy = H * 0.45 + Math.cos(time * 0.0003) * H * 0.1;
-  const rad = Math.min(W, H) * 0.55;
-  const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, rad);
-  grad.addColorStop(0,   'rgba(0,255,136,0.07)');
-  grad.addColorStop(0.5, 'rgba(0,200,255,0.04)');
-  grad.addColorStop(1,   'rgba(0,0,0,0)');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, H);
+function gameOver(){
+  clearInterval(gameLoop);running=false;
+  document.getElementById('final-score').textContent=score;
+  document.getElementById('msg-title').textContent=score>0?'Game Over! 🎮':'Game Over!';
+  document.getElementById('msg-sub').innerHTML=`Score: <strong>${score}</strong> &nbsp;|&nbsp; Best: <strong>${hiScore}</strong>`;
+  document.getElementById('game-msg').style.display='block';
+  updateScoreUI();
 }
 
-/* Grid lines */
-function drawGrid() {
-  ctx.strokeStyle = 'rgba(0,255,136,0.04)';
-  ctx.lineWidth = 1;
-  const spacing = 60;
-  for (let x = 0; x < W; x += spacing) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, H);
-    ctx.stroke();
-  }
-  for (let y = 0; y < H; y += spacing) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(W, y);
-    ctx.stroke();
-  }
+function updateScoreUI(){
+  document.getElementById('score').textContent=score||0;
+  document.getElementById('high-score').textContent=hiScore;
+  document.getElementById('level-display').textContent=level||1;
 }
 
-function animate(ts) {
-  time = ts;
-  ctx.clearRect(0, 0, W, H);
-
-  // Deep dark base
-  ctx.fillStyle = '#080b10';
-  ctx.fillRect(0, 0, W, H);
-
-  drawGrid();
-  drawGlow();
-  drawAurora();
-
-  // Particles
-  particles.forEach(p => { p.update(); p.draw(); });
-
-  requestAnimationFrame(animate);
+function drawStartScreen(){
+  gc.fillStyle='#050a05';gc.fillRect(0,0,sc.width,sc.height);
+  gc.fillStyle='rgba(0,255,136,0.6)';gc.font='bold 22px Segoe UI';gc.textAlign='center';
+  gc.fillText('Press ▶ Start to Play!',sc.width/2,sc.height/2-10);
+  gc.fillStyle='rgba(0,255,136,0.3)';gc.font='14px Segoe UI';
+  gc.fillText('Use Arrow Keys or D-Pad',sc.width/2,sc.height/2+20);
 }
 
-requestAnimationFrame(animate);
+// keyboard
+document.addEventListener('keydown',e=>{
+  const map={ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0}};
+  if(map[e.key]){e.preventDefault();if(running&&!paused)nextDir=map[e.key];}
+  if(e.key===' '){e.preventDefault();pauseGame();}
+});
+
+// show d-pad on touch
+if('ontouchstart' in window){document.getElementById('dpad').style.display='grid';}
+
+drawStartScreen();updateScoreUI();
+
+/* Mobile d-pad grid fix */
+document.getElementById('dpad').style.gridTemplateColumns='repeat(3,44px)';
+document.getElementById('dpad').style.gridTemplateRows='44px 44px';
 </script>
 </body>
 </html>
