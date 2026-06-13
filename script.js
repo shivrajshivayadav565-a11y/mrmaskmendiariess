@@ -1,26 +1,34 @@
-window.addEventListener("load", function(){
+const text = [
+  "Nature Videos",
+  "Travel Adventures",
+  "Wildlife Moments",
+  "Amazing Landscapes"
+];
 
-document.body.classList.add("loaded");
+let count = 0;
+let index = 0;
+let currentText = "";
+let letter = "";
 
-});
+(function type() {
 
-const text =
-"Explore Nature • Capture Adventures • Inspire Journeys";
+    if(count === text.length){
+        count = 0;
+    }
 
-let i = 0;
+    currentText = text[count];
 
-function typing(){
+    letter = currentText.slice(0, ++index);
 
-if(i < text.length){
+    document.getElementById("typing").textContent = letter;
 
-document.getElementById("typing").innerHTML += text.charAt(i);
+    if(letter.length === currentText.length){
+        count++;
+        index = 0;
+        setTimeout(type, 1500);
+    }
+    else{
+        setTimeout(type, 100);
+    }
 
-i++;
-
-setTimeout(typing, 60);
-
-}
-
-}
-
-typing();
+})();
